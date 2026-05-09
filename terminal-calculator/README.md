@@ -1,4 +1,4 @@
-# Calculator
+# Terminal Calculator
 
 A simple interactive console calculator that supports basic arithmetic operations.
 
@@ -12,7 +12,7 @@ A simple interactive console calculator that supports basic arithmetic operation
 ## How to Run
 
 ```bash
-dotnet run --project calculator
+dotnet run --project terminal-calculator
 ```
 
 ## Usage
