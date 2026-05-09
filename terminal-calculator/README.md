@@ -7,7 +7,11 @@ A simple interactive console calculator that supports basic arithmetic operation
 - Addition, subtraction, multiplication, and division
 - Input validation for numbers and operations
 - Division by zero error handling
-- Option to perform multiple calculations in a single session
+- Continuous calculation loop
+- Clear console formatting
+- Graceful error messages
+- Decimal support
+- Exit command (`exit` or `quit` at any prompt)
 
 ## How to Run
 
@@ -18,9 +22,11 @@ dotnet run --project terminal-calculator
 ## Usage
 
 ```
-===========================
-   C# Console Calculator   
-===========================
+===================================
+       Terminal Calculator          
+===================================
+  Type 'exit' or 'quit' to leave.  
+===================================
 
 Enter the first number: 10
 Enter an operation (+, -, *, /): +
