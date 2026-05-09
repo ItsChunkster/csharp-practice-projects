@@ -7,7 +7,9 @@ public static class InputHandler
         while (true)
         {
             Console.Write(prompt);
-            string? input = Console.ReadLine();
+            string? input = Console.ReadLine()?.Trim();
+
+            CheckForExit(input);
 
             if (double.TryParse(input, out double number))
             {
@@ -27,6 +29,8 @@ public static class InputHandler
             Console.Write("Enter an operation (+, -, *, /): ");
             string? input = Console.ReadLine()?.Trim();
 
+            CheckForExit(input);
+
             if (input != null && validOperations.Contains(input))
             {
                 return input;
@@ -40,6 +44,18 @@ public static class InputHandler
     {
         Console.Write("Perform another calculation? (y/n): ");
         string? input = Console.ReadLine()?.Trim().ToLower();
+
+        CheckForExit(input);
+
         return input == "y" || input == "yes";
+    }
+
+    private static void CheckForExit(string? input)
+    {
+        if (string.Equals(input, "exit", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(input, "quit", StringComparison.OrdinalIgnoreCase))
+        {
+            throw new ExitException();
+        }
     }
 }

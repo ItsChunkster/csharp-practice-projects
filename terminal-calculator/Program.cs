@@ -4,11 +4,31 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        Console.WriteLine("===========================");
-        Console.WriteLine("   C# Console Calculator   ");
-        Console.WriteLine("===========================");
-        Console.WriteLine();
+        try
+        {
+            ShowHeader();
+            RunCalculatorLoop();
+        }
+        catch (ExitException)
+        {
+        }
 
+        Console.WriteLine("Goodbye!");
+    }
+
+    private static void ShowHeader()
+    {
+        Console.Clear();
+        Console.WriteLine("===================================");
+        Console.WriteLine("       Terminal Calculator          ");
+        Console.WriteLine("===================================");
+        Console.WriteLine("  Type 'exit' or 'quit' to leave.  ");
+        Console.WriteLine("===================================");
+        Console.WriteLine();
+    }
+
+    private static void RunCalculatorLoop()
+    {
         bool running = true;
 
         while (running)
@@ -19,18 +39,25 @@ public class Program
 
             double? result = CalculatorEngine.Calculate(firstNumber, secondNumber, operation);
 
+            Console.WriteLine();
             if (result.HasValue)
             {
-                Console.WriteLine($"\n  {firstNumber} {operation} {secondNumber} = {result.Value}\n");
+                Console.WriteLine($"  {firstNumber} {operation} {secondNumber} = {result.Value}");
             }
             else
             {
-                Console.WriteLine("\n  Error: Cannot divide by zero.\n");
+                Console.WriteLine("  Error: Cannot divide by zero.");
             }
+            Console.WriteLine();
 
             running = InputHandler.AskToContinue();
-        }
 
-        Console.WriteLine("Goodbye!");
+            if (running)
+            {
+                Console.WriteLine();
+                Console.WriteLine("-----------------------------------");
+                Console.WriteLine();
+            }
+        }
     }
 }
