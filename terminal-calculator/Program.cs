@@ -2,62 +2,164 @@ namespace TerminalCalculator;
 
 public class Program
 {
+    private static bool _scientificMode;
+
     public static void Main(string[] args)
     {
         try
         {
             ShowHeader();
-            RunCalculatorLoop();
+            RunMainMenu();
         }
         catch (ExitException)
         {
         }
 
-        Console.WriteLine("Goodbye!");
+        Console.WriteLine();
+        ConsoleHelper.WriteInfo("Goodbye!");
     }
 
     private static void ShowHeader()
     {
         Console.Clear();
-        Console.WriteLine("===================================");
-        Console.WriteLine("       Terminal Calculator          ");
-        Console.WriteLine("===================================");
-        Console.WriteLine("  Type 'exit' or 'quit' to leave.  ");
-        Console.WriteLine("===================================");
+        ConsoleHelper.WriteHeader("===================================");
+        ConsoleHelper.WriteHeader("       Terminal Calculator          ");
+        ConsoleHelper.WriteHeader("===================================");
+        ConsoleHelper.WriteWarning("  Type 'exit' or 'quit' to leave.  ");
+        ConsoleHelper.WriteWarning("  Type 'mr' for memory recall.     ");
+        ConsoleHelper.WriteHeader("===================================");
         Console.WriteLine();
     }
 
-    private static void RunCalculatorLoop()
+    private static void ShowMenu()
     {
-        bool running = true;
+        string mode = _scientificMode ? "ON" : "OFF";
+        ConsoleHelper.WriteInfo("  ┌─────────────────────────────┐");
+        ConsoleHelper.WriteInfo("  │          Main Menu          │");
+        ConsoleHelper.WriteInfo("  ├─────────────────────────────┤");
+        Console.WriteLine("  │  1. Calculate                │");
+        Console.WriteLine("  │  2. View History             │");
+        Console.WriteLine("  │  3. Clear History            │");
+        Console.WriteLine("  │  4. Store to Memory          │");
+        Console.WriteLine("  │  5. Recall Memory            │");
+        Console.WriteLine("  │  6. Clear Memory             │");
+        Console.WriteLine($"  │  7. Scientific Mode [{mode,-3}]    │");
+        ConsoleHelper.WriteInfo("  └─────────────────────────────┘");
+        Console.WriteLine();
+    }
 
-        while (running)
+    private static void RunMainMenu()
+    {
+        while (true)
         {
-            double firstNumber = InputHandler.ReadNumber("Enter the first number: ");
-            string operation = InputHandler.ReadOperation();
-            double secondNumber = InputHandler.ReadNumber("Enter the second number: ");
+            ShowMenu();
+            string choice = InputHandler.ReadMenuChoice();
 
-            double? result = CalculatorEngine.Calculate(firstNumber, secondNumber, operation);
-
-            Console.WriteLine();
-            if (result.HasValue)
+            switch (choice)
             {
-                Console.WriteLine($"  {firstNumber} {operation} {secondNumber} = {result.Value}");
-            }
-            else
-            {
-                Console.WriteLine("  Error: Cannot divide by zero.");
-            }
-            Console.WriteLine();
-
-            running = InputHandler.AskToContinue();
-
-            if (running)
-            {
-                Console.WriteLine();
-                Console.WriteLine("-----------------------------------");
-                Console.WriteLine();
+                case "1":
+                    RunCalculation();
+                    break;
+                case "2":
+                    History.Show();
+                    break;
+                case "3":
+                    History.Clear();
+                    break;
+                case "4":
+                    StoreToMemory();
+                    break;
+                case "5":
+                    Memory.Recall();
+                    Console.WriteLine();
+                    break;
+                case "6":
+                    Memory.Clear();
+                    Console.WriteLine();
+                    break;
+                case "7":
+                    _scientificMode = !_scientificMode;
+                    string state = _scientificMode ? "ON" : "OFF";
+                    ConsoleHelper.WriteSuccess($"  Scientific mode: {state}");
+                    Console.WriteLine();
+                    break;
             }
         }
+    }
+
+    private static void RunCalculation()
+    {
+        Console.WriteLine();
+        string operation = InputHandler.ReadOperation(_scientificMode);
+        string[] unaryOps = ["sqrt", "sin", "cos", "tan", "log", "ln", "abs", "!"];
+
+        if (unaryOps.Contains(operation))
+        {
+            RunUnaryCalculation(operation);
+        }
+        else
+        {
+            RunBinaryCalculation(operation);
+        }
+    }
+
+    private static void RunBinaryCalculation(string operation)
+    {
+        double firstNumber = InputHandler.ReadNumber("Enter the first number: ");
+        double secondNumber = InputHandler.ReadNumber("Enter the second number: ");
+
+        double? result = CalculatorEngine.Calculate(firstNumber, secondNumber, operation);
+
+        Console.WriteLine();
+        if (result.HasValue)
+        {
+            string entry = $"{firstNumber} {operation} {secondNumber} = {result.Value}";
+            ConsoleHelper.WriteSuccess($"  {entry}");
+            History.Add(entry);
+        }
+        else
+        {
+            ConsoleHelper.WriteError("  Error: Cannot divide by zero.");
+        }
+        Console.WriteLine();
+    }
+
+    private static void RunUnaryCalculation(string operation)
+    {
+        double value = InputHandler.ReadNumber("Enter the value: ");
+
+        try
+        {
+            double result = operation switch
+            {
+                "sqrt" => CalculatorEngine.SquareRoot(value),
+                "sin" => CalculatorEngine.Sine(value),
+                "cos" => CalculatorEngine.Cosine(value),
+                "tan" => CalculatorEngine.Tangent(value),
+                "log" => CalculatorEngine.Log(value),
+                "ln" => CalculatorEngine.Ln(value),
+                "abs" => CalculatorEngine.Absolute(value),
+                "!" => CalculatorEngine.Factorial((int)value),
+                _ => throw new ArgumentException($"Unknown operation: {operation}")
+            };
+
+            string entry = $"{operation}({value}) = {result}";
+            Console.WriteLine();
+            ConsoleHelper.WriteSuccess($"  {entry}");
+            History.Add(entry);
+        }
+        catch (ArgumentException ex)
+        {
+            Console.WriteLine();
+            ConsoleHelper.WriteError($"  Error: {ex.Message}");
+        }
+        Console.WriteLine();
+    }
+
+    private static void StoreToMemory()
+    {
+        double value = InputHandler.ReadNumber("Enter value to store: ");
+        Memory.Store(value);
+        Console.WriteLine();
     }
 }
