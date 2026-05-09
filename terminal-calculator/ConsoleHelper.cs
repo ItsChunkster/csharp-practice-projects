@@ -40,8 +40,4 @@ public static class ConsoleHelper
         WriteLineColored(text, ConsoleColor.Magenta);
     }
 
-    public static void WriteResult(string text)
-    {
-        WriteLineColored(text, ConsoleColor.White);
-    }
 }

@@ -185,4 +185,4 @@ The application follows a **separation of concerns** pattern:
 
 ## License
 
-This project is part of a personal practice repository and is not currently licensed for distribution.
+MIT

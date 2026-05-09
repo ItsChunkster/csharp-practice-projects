@@ -2,15 +2,15 @@ namespace TerminalCalculator;
 
 public static class CalculatorEngine
 {
-    public static double? Calculate(double a, double b, string operation)
+    public static double? Calculate(double left, double right, string operation)
     {
         return operation switch
         {
-            "+" => a + b,
-            "-" => a - b,
-            "*" => a * b,
-            "/" => b != 0 ? a / b : null,
-            "^" => Math.Pow(a, b),
+            "+" => left + right,
+            "-" => left - right,
+            "*" => left * right,
+            "/" => right != 0 ? left / right : null,
+            "^" => Math.Pow(left, right),
             _ => throw new ArgumentException($"Unknown operation: {operation}")
         };
     }

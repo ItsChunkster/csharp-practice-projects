@@ -75,16 +75,6 @@ public static class InputHandler
         }
     }
 
-    public static bool AskToContinue()
-    {
-        Console.Write("Perform another calculation? (y/n): ");
-        string? input = Console.ReadLine()?.Trim().ToLower();
-
-        CheckForExit(input);
-
-        return input == "y" || input == "yes";
-    }
-
     private static void CheckForExit(string? input)
     {
         if (string.Equals(input, "exit", StringComparison.OrdinalIgnoreCase) ||
