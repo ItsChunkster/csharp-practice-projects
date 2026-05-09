@@ -1,6 +1,6 @@
 # Terminal Calculator
 
-A menu-driven console calculator built with .NET 8.0 and C#. Supports basic arithmetic, scientific operations, calculation history, memory storage, and colorized output.
+A polished C# command-line calculator featuring modular architecture, robust input validation, and clean terminal interaction.
 
 ---
 
