@@ -57,32 +57,39 @@ dotnet run --project terminal-calculator
 On launch, the app clears the screen and displays a header and main menu:
 
 ```
-===================================
-       Terminal Calculator
-===================================
+==============================
+     TERMINAL CALCULATOR
+==============================
+
   Type 'exit' or 'quit' to leave.
   Type 'mr' for memory recall.
-===================================
 
-  ┌─────────────────────────────┐
-  │          Main Menu          │
-  ├─────────────────────────────┤
-  │  1. Calculate                │
-  │  2. View History             │
-  │  3. Clear History            │
-  │  4. Store to Memory          │
-  │  5. Recall Memory            │
-  │  6. Clear Memory             │
-  │  7. Scientific Mode [OFF]    │
-  └─────────────────────────────┘
+Select an option:
+  1. Calculate
+  2. View History
+  3. Clear History
+  4. Store to Memory
+  5. Recall Memory
+  6. Clear Memory
+  7. Scientific Mode [OFF]
+  8. Exit
+
+Choice:
 ```
 
 ### Basic Calculation
 
 ```
-  Choose an option: 1
+Choice: 1
 
-Enter an operation (+, -, *, /, ^): +
+Select an operation:
+  1. Add (+)
+  2. Subtract (-)
+  3. Multiply (*)
+  4. Divide (/)
+  5. Power (^)
+
+Choice: 1
 Enter the first number: 10
 Enter the second number: 5
 
@@ -94,11 +101,27 @@ Enter the second number: 5
 Toggle scientific mode on (option `7`), then select a scientific operation:
 
 ```
-  Choose an option: 7
+Choice: 7
   Scientific mode: ON
 
-  Choose an option: 1
-Operation (+, -, *, /, ^, sqrt, sin, cos, tan, log, ln, abs, !): sqrt
+Choice: 1
+
+Select an operation:
+  1. Add (+)
+  2. Subtract (-)
+  3. Multiply (*)
+  4. Divide (/)
+  5. Power (^)
+  6. Square Root (sqrt)
+  7. Sine (sin)
+  8. Cosine (cos)
+  9. Tangent (tan)
+  10. Log Base 10 (log)
+  11. Natural Log (ln)
+  12. Absolute Value (abs)
+  13. Factorial (!)
+
+Choice: 6
 Enter the value: 16
 
   sqrt(16) = 4
@@ -109,12 +132,17 @@ Enter the value: 16
 Store a value (option `4`), then type `mr` at any number prompt to recall it:
 
 ```
-  Choose an option: 4
+Choice: 4
 Enter value to store: 99
   Stored 99 in memory.
 
-  Choose an option: 1
-Enter an operation (+, -, *, /, ^): +
+Choice: 1
+
+Select an operation:
+  1. Add (+)
+  ...
+
+Choice: 1
 Enter the first number: mr
   Memory: 99
 Enter the second number: 1

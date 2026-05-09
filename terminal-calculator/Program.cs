@@ -22,29 +22,27 @@ public class Program
     private static void ShowHeader()
     {
         Console.Clear();
-        ConsoleHelper.WriteHeader("===================================");
-        ConsoleHelper.WriteHeader("       Terminal Calculator          ");
-        ConsoleHelper.WriteHeader("===================================");
-        ConsoleHelper.WriteWarning("  Type 'exit' or 'quit' to leave.  ");
-        ConsoleHelper.WriteWarning("  Type 'mr' for memory recall.     ");
-        ConsoleHelper.WriteHeader("===================================");
+        ConsoleHelper.WriteHeader("==============================");
+        ConsoleHelper.WriteHeader("     TERMINAL CALCULATOR      ");
+        ConsoleHelper.WriteHeader("==============================");
+        Console.WriteLine();
+        ConsoleHelper.WriteWarning("  Type 'exit' or 'quit' to leave.");
+        ConsoleHelper.WriteWarning("  Type 'mr' for memory recall.");
         Console.WriteLine();
     }
 
     private static void ShowMenu()
     {
         string mode = _scientificMode ? "ON" : "OFF";
-        ConsoleHelper.WriteInfo("  ┌─────────────────────────────┐");
-        ConsoleHelper.WriteInfo("  │          Main Menu          │");
-        ConsoleHelper.WriteInfo("  ├─────────────────────────────┤");
-        Console.WriteLine("  │  1. Calculate                │");
-        Console.WriteLine("  │  2. View History             │");
-        Console.WriteLine("  │  3. Clear History            │");
-        Console.WriteLine("  │  4. Store to Memory          │");
-        Console.WriteLine("  │  5. Recall Memory            │");
-        Console.WriteLine("  │  6. Clear Memory             │");
-        Console.WriteLine($"  │  7. Scientific Mode [{mode,-3}]    │");
-        ConsoleHelper.WriteInfo("  └─────────────────────────────┘");
+        ConsoleHelper.WriteInfo("Select an option:");
+        Console.WriteLine("  1. Calculate");
+        Console.WriteLine("  2. View History");
+        Console.WriteLine("  3. Clear History");
+        Console.WriteLine("  4. Store to Memory");
+        Console.WriteLine("  5. Recall Memory");
+        Console.WriteLine("  6. Clear Memory");
+        Console.WriteLine($"  7. Scientific Mode [{mode}]");
+        Console.WriteLine("  8. Exit");
         Console.WriteLine();
     }
 
@@ -83,13 +81,14 @@ public class Program
                     ConsoleHelper.WriteSuccess($"  Scientific mode: {state}");
                     Console.WriteLine();
                     break;
+                case "8":
+                    throw new ExitException();
             }
         }
     }
 
     private static void RunCalculation()
     {
-        Console.WriteLine();
         string operation = InputHandler.ReadOperation(_scientificMode);
         string[] unaryOps = ["sqrt", "sin", "cos", "tan", "log", "ln", "abs", "!"];
 
